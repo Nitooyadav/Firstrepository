@@ -1,0 +1,29 @@
+#print your name age and favourite hobby
+Name= "Nitoo yadav"
+Age= 25
+Hobby= "Reading"+ " and taking pictures"
+print("My name is", Name , ".\nI am", Age, "years old.", "\nMy hobbies are", Hobby)
+
+#Take two numbers and print their sums
+num1=int(input("enter first number:"))
+num2=int(input("enter second number:"))
+sum=num1+num2
+print(sum)
+
+#swap two variable without using third variable
+a=0
+b=1
+print(a,b)
+(a,b)=(b,a)
+print(a,b)
+
+
+
+
+#check if the number are odd or even
+num=int(input("enter the number:"))
+y=num%2
+if (y==0):
+    print("even number")
+else:
+    print("odd number")

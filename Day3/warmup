@@ -1,0 +1,102 @@
+"""#Create a class Car with attributes brand and year
+class Car:
+    def __init__(self, brand, year):
+        self.brand = brand
+        self.year = year
+
+car1=Car("porsche", 2000)
+car2=Car("mercedes", 2005)
+TOYOTA =Car("COROLLA",2003)
+print(TOYOTA.brand)
+     
+#Create a class Circle with methods for area & perimeter
+    
+class Circle:
+
+    def __init__(self,radius):
+        self.radius=radius
+
+    def formula(radius):
+        area=3.14*(radius)**2
+        perimeter=2*3.14*radius
+        print(area)
+        print(perimeter)
+        
+Circle.formula(5)
+
+
+#Write a try-except block to handle division by zero
+
+try:
+    x=int(input("enter a number to find its inverse:"))
+    a=1/x
+    print(a)
+
+except ValueError:
+    print("please enter a integer")
+
+except ZeroDivisionError:
+    print("please enter number greaqter then 0")
+    
+
+#Class BankAccount with deposit, withdraw, balance methods
+class Bankacc:
+    def __init__(self,acc_name,saving,type):
+        self.acc_name = acc_name
+        self.saving = saving
+        self.type = type
+
+    def balance(self):
+        print(self.saving)
+
+    def deposit(self,amount):
+        self.saving=self.saving+amount
+        print("deposited:",amount," \nTotal balance:",self.saving)
+
+    def withdraw(self,amount):
+        if self.type=="sa":
+            self.saving=self.saving-amount
+            if self.saving<5000:
+                print("you have a saving acc you cant withdraw an amount which will make your balance less then 5000")
+            else:
+                print("withdrawn:",amount," \nTotal balance:",self.saving)
+        elif self.type=="nsa":
+            self.saving=self.saving-amount
+            print("withdrawn:",amount," \nTotal balance:",self.saving)
+     
+    def simpint(self,year,rate=0.05):
+        if self.type=="sa":
+            x=self.saving*rate*year
+            print(x)
+        else:
+            print("you dont have a saving acc")
+
+
+
+acc1=Bankacc("nitoo",50000,"nsa")
+Bankacc.withdraw(acc1,44000)
+Bankacc.simpint(acc1,5)
+        
+#Student grade manager (take marks, calculate grade, store in dictionary)
+
+Record={ "Nitoo": {"marks":92,"grade":"A"},
+        "abbas":{"marks":80,"grade":"B"},
+        }
+print (Record)
+
+name=str(input("enter name of student:"))
+marks=int(input("enter marks:"))
+if marks>=90:
+    grade="A"
+elif marks>=80 and marks<90:
+    grade="B"
+elif marks>=70 and marks<80:
+    grade="C"
+else:
+    grade="F"
+
+
+Record[name]={"marks":marks,"grade":grade}
+print(Record)
+"""
+

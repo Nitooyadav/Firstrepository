@@ -1,0 +1,90 @@
+import requests
+import tkinter as tk
+from tkinter import ttk, messagebox, scrolledtext
+import re
+
+WIKI_API_SUMMARY = "https://en.wikipedia.org/api/rest_v1/page/summary/"
+HEADERS = {
+    "User-Agent": "OpenSourceRemedyApp/1.0 (contact: example@example.com)"
+}
+
+# Keywords to identify sentences related to each section
+SECTION_KEYWORDS = {
+    "Causes": r"\b(cause|causes|trigger|reason|due to|factor|etiology)\b",
+    "Symptoms": r"\b(symptom|symptoms|sign|signs|feature|features|indicate|indication)\b",
+    "Remedies and Treatment": r"\b(treatment|remedy|management|therapy|cure|recover|medicate|medication|drug)\b",
+    "Prevention": r"\b(prevent|prevention|avoid|prophylaxis|reduce risk|control)\b"
+}
+
+def extract_section_sentences(summary, keyword_pattern):
+    sentences = re.split(r'(?<=[.!?]) +', summary)
+    matched_sents = [s for s in sentences if re.search(keyword_pattern, s, re.I)]
+    return "\n".join(matched_sents) if matched_sents else ""
+
+def fetch_disease_info(disease):
+    title = disease.strip().replace(" ", "_")
+    url = WIKI_API_SUMMARY + title
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            summary = data.get("extract", "")
+            if not summary:
+                return None, "No summary available on Wikipedia."
+
+            # Extract sentences for each section
+            info_sections = {}
+            for section, pattern in SECTION_KEYWORDS.items():
+                extracted = extract_section_sentences(summary, pattern)
+                # If no match found, fallback to first 2 sentences from summary for that section
+                if not extracted:
+                    sentences = re.split(r'(?<=[.!?]) +', summary)
+                    extracted = " ".join(sentences[:2])
+                info_sections[section] = extracted
+            return info_sections, None
+        elif response.status_code == 404:
+            return None, "Sorry, no Wikipedia page found for this illness."
+        else:
+            return None, f"Error fetching data: HTTP {response.status_code}"
+    except Exception as e:
+        return None, f"Error: {e}"
+
+def get_information():
+    disease = entry.get().strip()
+    if not disease:
+        messagebox.showinfo("Input Required", "Please enter a disease or illness.")
+        return
+
+    info, error = fetch_disease_info(disease)
+    if error:
+        messagebox.showinfo("Info", error)
+        return
+
+    # Compose output text with section headers
+    output = ""
+    for section in ["Causes", "Symptoms", "Remedies and Treatment", "Prevention"]:
+        output += f"{section}:\n{info.get(section, 'No information available.')}\n\n"
+
+    result_box.config(state='normal')
+    result_box.delete('1.0', tk.END)
+    result_box.insert(tk.END, output)
+    result_box.config(state='disabled')
+
+# GUI setup
+root = tk.Tk()
+root.title("Disease Information from Wikipedia")
+root.geometry("750x600")
+
+tk.Label(root, text="Enter a disease or illness:", font=("Arial", 16)).pack(pady=15)
+entry = ttk.Entry(root, width=50, font=("Arial", 14))
+entry.pack(pady=8)
+btn = tk.Button(root, text="Get Information", font=("Arial", 14), command=get_information)
+btn.pack(pady=12)
+
+frame = tk.Frame(root, highlightbackground="black", highlightcolor="black", highlightthickness=2, bd=0)
+frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
+
+result_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, font=("Arial", 13), state='disabled')
+result_box.pack(fill=tk.BOTH, expand=True)
+
+root.mainloop()

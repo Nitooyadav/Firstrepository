@@ -1,0 +1,68 @@
+import requests
+import tkinter as tk
+from tkinter import ttk, messagebox, scrolledtext
+import re
+
+
+WIKI_API_SUMMARY = "https://en.wikipedia.org/api/rest_v1/page/summary/"
+HEADERS = {
+    "User-Agent": "OpenSourceRemedyApp/1.0 (contact: example@example.com)"
+}
+
+
+def fetch_remedy(topic):
+    topic_wiki = topic.strip().replace(" ", "_")
+    url = WIKI_API_SUMMARY + topic_wiki
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            summary = data.get("extract", "")
+            # Extract sentences related to 'treatment', 'remedy' etc.
+            treatment = ""
+            for sent in re.split(r'(?<=[.!?]) +', summary):
+                if re.search(r"\b(treatment|remedy|management|cure|recover)\b", sent, re.I):
+                    treatment += sent + "\n"
+            if not treatment:
+                treatment = summary[:350] + "..." if summary else "No information found."
+            return treatment
+        elif response.status_code == 404:
+            return "Sorry, no Wikipedia page found for this illness."
+        else:
+            return f"Error fetching data: HTTP {response.status_code}"
+    except Exception as e:
+        return f"Error: {e}"
+
+
+def get_information():
+    illness = entry.get().strip()
+    if not illness:
+        messagebox.showinfo("Input Required", "Please enter a disease or illness.")
+        return
+    remedy = fetch_remedy(illness)
+    result_box.config(state='normal')
+    result_box.delete('1.0', tk.END)
+    result_box.insert(tk.END, remedy)
+    result_box.config(state='disabled')
+
+
+# GUI Setup
+root = tk.Tk()
+root.title("Get information about diseases")
+root.geometry("700x300")
+
+tk.Label(root, text="Enter a disease:", font=("Arial", 14)).pack(pady=10)
+entry = ttk.Entry(root, width=50, font=("Arial", 12))
+entry.pack(pady=4)
+btn = tk.Button(root, text="Get Information", command=get_information)
+btn.pack(pady=8)
+
+# Frame with black border around scrolledtext
+frame = tk.Frame(root, highlightbackground="black", highlightcolor="black", highlightthickness=2, bd=0)
+frame.pack(fill=tk.BOTH, expand=False, padx=8, pady=8)
+
+result_box = scrolledtext.ScrolledText(frame, wrap=tk.WORD, font=("Arial", 12), height=8, width=70)
+result_box.pack(fill=tk.BOTH, expand=True)
+result_box.config(state='disabled')
+
+root.mainloop()

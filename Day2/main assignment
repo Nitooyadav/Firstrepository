@@ -1,0 +1,85 @@
+"""
+
+# Function to check if a number is prime
+num = int(input("Enter a number: "))
+
+if num <= 1:
+    print(num, "is not a prime number")
+else:
+    print(num, "is a prime number")
+    for i in range(2, int(num ** 0.5) + 1):
+        if num % i == 0:
+            print(num, "is not a prime number")
+            break
+
+#· Build a student record system using dictionary (name, age, marks)
+
+Student_record={
+    "name":["Nitoo","Nuba","Sanjay"],
+    "age":[25,22,23],
+    "marks":[90,92,91]
+    }
+print(Student_record)
+
+
+
+#· ATM simulation (deposit, withdraw, balance using functions)
+
+amount={}
+deposit=float(input("enter your amount to deposit:"))
+total_amount=(deposit+amount)
+print(total_amount)
+withdraw=float(input("enter the withdraw amount:"))
+balance=(total_amount-withdraw)
+print(balance)
+
+"""
+
+
+def deposit(balance, amount):
+    if amount <= 0:
+        return balance, "Deposit amount must be positive."
+    balance += amount
+    return balance, f"Deposit successful! New balance: {balance}"
+
+def withdraw(balance, amount):
+    if amount <= 0:
+        return balance, "Withdrawal amount must be positive."
+    if amount > balance:
+        return balance, "Insufficient funds."
+    balance -= amount
+    return balance, f"Withdrawal successful! New balance: {balance}"
+
+def check_balance(balance):
+    return f"Current balance: {balance}"
+
+balance = 1000 
+while True:
+    print("\nATM Menu:")
+    print("1. Deposit")
+    print("2. Withdraw")
+    print("3. Check Balance")
+    print("4. Exit")
+    choice = input("Enter your choice (1-4): ")
+
+    if choice == '1':
+        try:
+            amount = float(input("Enter amount to deposit: "))
+            balance, msg = deposit(balance, amount)
+            print(msg)
+        except ValueError:
+            print("Please enter a valid number.")
+    elif choice == '2':
+        try:
+            amount = float(input("Enter amount to withdraw: "))
+            balance, msg = withdraw(balance, amount)
+            print(msg)
+        except ValueError:
+            print("Please enter a valid number.")
+    elif choice == '3':
+        print(check_balance(balance))
+    elif choice == '4':
+        print("Thank you for using the ATM. Goodbye!")
+        break
+    else:
+        print("Invalid choice. Please select 1, 2, 3, or 4.")

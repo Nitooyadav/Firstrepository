@@ -1,0 +1,65 @@
+
+"""
+y=open("C:\\Users\\Admin\\OneDrive\\Desktop\\python file.txt","a")
+y.write(" good")
+print(y.write)
+y.close()
+x=open("C:\\Users\\Admin\\OneDrive\\Desktop\\python file.txt", "r")
+print(x.read())
+"""
+
+Contacts={"nitoo":8600479086,
+          "preet":7219768946,
+          "bharti":738773266,
+          "mukesh":841206076,
+          }
+opt="1.add \n2.search \n3.delete \n4.show directory \n5.exit \n"
+print(opt)
+
+while True:
+     
+    x=int(input("what would you like to do:"))
+    if x==1:
+         name=str(input("enter name:"))
+         number=int(input("enter number:"))
+         Contacts[name]=number
+         print(Contacts)
+
+    elif x==2:
+         name=str(input("enter name:"))
+         print(Contacts[name])
+
+    elif x==3:
+         name=str(input("enter name:"))
+         del Contacts[name]
+         print(Contacts)
+
+    elif x==4:
+         print(Contacts)
+
+    elif x==5:
+         print("stop")
+         break
+
+    else:
+         print("enter a valid option")
+    
+
+
+
+
+
+
+
+                                                                     
+                                                                        
+                                                                           
+                                                                              
+                                                                                 
+                                                                                    
+                                                                                       
+                                                                                          
+                                                                                             
+                                                                                                
+
+    

@@ -1,0 +1,39 @@
+"""
+length=float(input("enter the length of rectangle:"))
+breadth=float(input("enter the breadth of rectangle:"))
+Area_rectangle=length*breadth
+perimeter_rectangle=2*(length+breadth)
+print("the area of rectangle is:", Area_rectangle)
+print("the perimeter of rectangle is:", perimeter_rectangle)
+
+
+Radius=float(input("enter the radius of the circle:"))
+Area_circle=3.1415*(Radius**2)
+Perimeter_circle=2*3.1415*Radius
+print("the area of circle is:", Area_circle)
+print("the perimeter of circle is:", Perimeter_circle)
+
+
+base=float(input("enter the base:"))
+height=float(input("enter the height:"))
+Area_triangle= (base*height)/2
+Perimeter_triangle=(base+height)+((base**2)+(height**2))**(1/2)
+print(Area_triangle)
+print(Perimeter_triangle)
+
+
+Pricipal=int(input("enter your principal amount:"))
+Intrest=float(input("enter your rate of intrest:"))
+years=int(input("enter the per year:"))
+n=int(input("number of years:"))
+finalamount=(Pricipal*(1+(Intrest/years))**(years*n))
+print("the final amount you will pay is", finalamount)
+compoundintrest=finalamount-Pricipal
+print("your compount intrest will be:",compoundintrest)
+
+"""
+num1=float(input("enter your first number:"))
+num2=float(input("enter your second number:"))
+num=float()
+
+
